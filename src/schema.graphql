@@ -1,0 +1,31 @@
+type Task {
+  id: ID!
+  userId: Int
+  parentId: Int
+  childrensId: [Int!]!
+  ancestorsId: [Int!]!
+  statusId: Int!
+  tagsId: [Int!]!
+}
+
+type User {
+  id: ID!
+  fullName: String!
+}
+
+type Status {
+  id: ID!
+  status: String!
+}
+
+type Tags {
+  id: Int!
+  tag: String!
+}
+
+type Query {
+  tasks: [Task!]!
+  users: [User!]!
+  status: [Status!]!
+  tags: [Tags!]!
+}

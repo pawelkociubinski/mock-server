@@ -1,0 +1,111 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "parentId": null,
+      "statusId": 1,
+      "tagsId": [1, 2],
+      "title": "",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "parentId": 1,
+      "statusId": 1,
+      "tagsId": [1, 2],
+      "title": "",
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "parentId": 2,
+      "statusId": 1,
+      "tagsId": [1, 2],
+      "title": "",
+      "userId": 1
+    },
+    {
+      "id": 4,
+      "parentId": 2,
+      "statusId": 1,
+      "tagsId": [1, 2],
+      "title": "",
+      "userId": 1
+
+    },
+    {
+      "id": 5,
+      "parentId": 1,
+      "statusId": 1,
+      "tagsId": [1, 2],
+      "title": "",
+      "userId": 1
+    },
+    {
+      "id": 6,
+      "parentId": null,
+      "statusId": 1,
+      "tagsId": [1, 2],
+      "title": "",
+      "userId": 1
+    }
+  ],
+  "users": [
+    {
+      "fullName": "User_1",
+      "id": 1
+    },
+    {
+      "fullName": "User_2",
+      "id": 2
+    },
+    {
+      "fullName": "User_3",
+      "id": 3
+    },
+    {
+      "fullName": "User_4",
+      "id": 4
+    },
+    {
+      "fullName": "User_5",
+      "id": 5
+    }
+  ],
+  "status": [
+    {
+      "id": 1,
+      "status": "todo"
+    },
+    {
+      "id": 2,
+      "status": "in_progress"
+    },
+    {
+      "id": 3,
+      "status": "done"
+    }
+  ],
+  "tags": [
+    {
+      "id": 1,
+      "tag": "tag_1"
+    },
+    {
+      "id": 2,
+      "tag": "tag_2"
+    },
+    {
+      "id": 3,
+      "tag": "tag_3"
+    },
+    {
+      "id": 4,
+      "tag": "tag_4"
+    },
+    {
+      "id": 5,
+      "tag": "tag_5"
+    }
+  ]
+}
