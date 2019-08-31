@@ -24,7 +24,7 @@ All responses come with format:
 
   // Array of error messages.
   // If no errors, this field is omited.
-  errors: string[] | undefined
+  errors: string[]
 }
 ```
 
@@ -53,7 +53,7 @@ Request body is required:
 {
   // (optional) Parent task id.
   // Skip this if task should not be a child of some other task.
-  parentId: int | undefined;
+  parentId: int;
 
   // (required) Task title.
   title: string;
