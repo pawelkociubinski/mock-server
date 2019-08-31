@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const express = require("express");
+const { isInt, isIntOrUndef, isString, toInt, validate } = require("./utils");
 
 // Mutations.
 const addTagForTask = require("./database/add-tag-for-task");
@@ -18,24 +19,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use((_, res, next) => {
-  res.errResponse = function(status, errors) {
-    res.sendStatus(status);
-    res.json({ data: null, errors });
+  res.apiError = function(err) {
+    res.sendStatus(400);
+    res.json({ data: null, errors: Array.isArray(err) ? err : [err] });
   };
 
-  res.apiResponse = function(executor) {
-    let data = null;
-    let errors = {};
-
-    try {
-      data = executor();
-    } catch (err) {
-      errors = {
-        general: err.message
-      };
-    }
-
-    res.json({ data, errors });
+  res.apiOk = function(data) {
+    res.json({ data });
   };
 
   next();
@@ -61,48 +51,82 @@ app.get("/users", (_, res) => {
 // Router for mutations.
 app.post("/tasks", (req, res) => {
   const { parentId, title, userId } = req.body;
+  const args = {
+    parentId,
+    title,
+    userId
+  };
 
-  if (
-    (parentId && typeof parentId !== "number") ||
-    typeof title !== "string" ||
-    typeof userId !== "number"
-  ) {
-    res.sendStatus(400);
+  const errors = validate([
+    [args.parentId, isIntOrUndef, "Parent task id must be an integer"],
+    [args.title, isString, "Task title is missing"],
+    [args.userId, isInt, "User id must be an integer"]
+  ]);
+
+  if (errors) {
+    res.apiError(errors);
     return;
   }
 
-  res.apiResponse(() => {
-    return createTask({
-      parentId,
-      title,
-      userId
-    });
-  });
+  try {
+    const data = createTask(args);
+    res.apiOk(data);
+  } catch (err) {
+    res.apiError([err.message]);
+  }
 });
 
 app.put("/tasks/:taskId(\\d+)/tags", (req, res) => {
   const { tagName } = req.body;
+  const { taskId } = req.params;
 
-  if (typeof tagName !== "string") {
-    res.sendStatus(400);
+  const args = {
+    taskId: toInt(taskId),
+    tagName
+  };
+
+  const errors = validate([
+    [args.taskId, isInt, "Task id must be an integer"],
+    [args.tagName, isString, "Tag name is missing"]
+  ]);
+
+  if (errors) {
+    res.apiError(errors);
     return;
   }
 
-  res.apiResponse(() => {
-    return addTagForTask({
-      taskId: parseInt(req.params.taskId, 10),
-      tagName
-    });
-  });
+  try {
+    const data = addTagForTask(args);
+    res.apiOk(data);
+  } catch (err) {
+    res.apiError([err.message]);
+  }
 });
 
 app.delete("/tasks/:taskId(\\d+)/tags/:tagId(\\d+)", (req, res) => {
-  res.send(
-    removeTagFromTask({
-      tagId: parseInt(req.params.tagId, 10),
-      taskId: parseInt(req.params.taskId, 10)
-    })
-  );
+  const { tagId, taskId } = req.params;
+
+  const args = {
+    tagId: toInt(tagId),
+    taskId: toInt(taskId)
+  };
+
+  const errors = validate([
+    [args.tagId, isInt, "Tag id must be an integer"],
+    [args.taskId, isInt, "Task id must be an integer"]
+  ]);
+
+  if (errors) {
+    res.apiError(errors);
+    return;
+  }
+
+  try {
+    const data = removeTagFromTask(args);
+    res.apiOk(data);
+  } catch (err) {
+    res.apiError([err.message]);
+  }
 });
 
 app.all("*", (_, res) => {
@@ -110,7 +134,7 @@ app.all("*", (_, res) => {
 });
 
 module.exports = function startRestServer() {
-  app.listen(4001, () => {
-    console.log(`🚀  REST API server ready at http://localhost:4001`);
+  app.listen(4000, () => {
+    console.log(`🚀  REST API server ready at http://localhost:4000`);
   });
 };
