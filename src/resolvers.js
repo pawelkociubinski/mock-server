@@ -1,14 +1,49 @@
-import db from "./db.json";
+const low = require("lowdb");
+const path = require("path");
+const fs = require("fs");
+const FileSync = require("lowdb/adapters/FileSync");
+
+const adapter = new FileSync("db.fork.json");
+const db = low(adapter);
+
+if (Object.keys(db).length === 0) {
+  const freshDb = require("./db.json");
+  db.defaults(freshDb).write();
+}
 
 const resolvers = {
   Query: {
-    tasks: () => db.tasks,
-    users: () => db.users,
-    status: () => db.status,
-    tags: () => db.tags,
+    statuses: () => db.get("statuses"),
+    tags: () => db.get("tags"),
+    tasks: () => db.get("tasks"),
+    users: () => db.get("users")
   },
-  mutation: {
-   // ...
+  Mutation: {
+    /**
+     * @param {{ tagName: string }} args
+     */
+    addTaskTag: (_ctx, args) => {
+      const tag = {
+        id: 1000,
+        name: args.tagName
+      };
+
+      db.tags.push(tag);
+
+      const idx = db.tasks.findIndex(task => task.id === args.taskId);
+
+      if (idx === -1) {
+        throw new Error("No task with id: " + args.taskId);
+      }
+
+      const task = db.tasks[idx];
+
+      task.tagsId.push(tag.id);
+
+      db.tasks[idx] = task;
+
+      return tag;
+    }
   }
 };
 

@@ -5,7 +5,7 @@
       "parentId": null,
       "statusId": 1,
       "tagsId": [1, 2],
-      "title": "",
+      "title": "Set up CI",
       "userId": 1
     },
     {
@@ -13,7 +13,7 @@
       "parentId": 1,
       "statusId": 1,
       "tagsId": [1, 2],
-      "title": "",
+      "title": "Configure npm modules cache",
       "userId": 1
     },
     {
@@ -31,22 +31,21 @@
       "tagsId": [1, 2],
       "title": "",
       "userId": 1
-
     },
     {
       "id": 5,
       "parentId": 1,
       "statusId": 1,
       "tagsId": [1, 2],
-      "title": "",
+      "title": "Add linters",
       "userId": 1
     },
     {
       "id": 6,
       "parentId": null,
       "statusId": 1,
-      "tagsId": [1, 2],
-      "title": "",
+      "tagsId": [2, 3],
+      "title": "Create components library",
       "userId": 1
     }
   ],
@@ -72,40 +71,40 @@
       "id": 5
     }
   ],
-  "status": [
+  "statuses": [
     {
       "id": 1,
-      "status": "todo"
+      "name": "Todo"
     },
     {
       "id": 2,
-      "status": "in_progress"
+      "name": "In progress"
     },
     {
       "id": 3,
-      "status": "done"
+      "name": "Code review"
+    },
+    {
+      "id": 4,
+      "name": "Done"
     }
   ],
   "tags": [
     {
       "id": 1,
-      "tag": "tag_1"
+      "name": "Continuous Integration"
     },
     {
       "id": 2,
-      "tag": "tag_2"
+      "name": "Setup"
     },
     {
       "id": 3,
-      "tag": "tag_3"
+      "name": "UI"
     },
     {
       "id": 4,
-      "tag": "tag_4"
-    },
-    {
-      "id": 5,
-      "tag": "tag_5"
+      "name": "Code Style"
     }
   ]
 }

@@ -1,31 +1,34 @@
 type Task {
-  id: ID!
-  userId: Int
+  id: Int!
   parentId: Int
-  childrensId: [Int!]!
-  ancestorsId: [Int!]!
   statusId: Int!
   tagsId: [Int!]!
+  title: String!
+  userId: Int!
 }
 
 type User {
-  id: ID!
+  id: Int!
   fullName: String!
 }
 
 type Status {
-  id: ID!
-  status: String!
+  id: Int!
+  name: String!
 }
 
-type Tags {
+type Tag {
   id: Int!
-  tag: String!
+  name: String!
 }
 
 type Query {
   tasks: [Task!]!
   users: [User!]!
-  status: [Status!]!
-  tags: [Tags!]!
+  statuses: [Status!]!
+  tags: [Tag!]!
+}
+
+type Mutation {
+  addTaskTag(taskId: Int!, tagName: String!): Tag!
 }
