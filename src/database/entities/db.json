@@ -1,0 +1,125 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "parentId": null,
+      "slug": "create-components-library",
+      "statusId": 1,
+      "tagsId": [2, 3, 5],
+      "title": "Create components library",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "parentId": 1,
+      "slug": "configure-styling-solution",
+      "statusId": 1,
+      "tagsId": [],
+      "title": "Configure styling solution",
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "parentId": 2,
+      "slug": "choose-between-styled-components-and-emotion",
+      "statusId": 1,
+      "tagsId": [2, 3, 4],
+      "title": "Choose between styled-components and emotion",
+      "userId": 1
+    },
+    {
+      "id": 4,
+      "parentId": 2,
+      "slug": "write-reusable-base-styles",
+      "statusId": 1,
+      "tagsId": [3],
+      "title": "Write reusable base styles",
+      "userId": 1
+    },
+    {
+      "id": 5,
+      "parentId": 1,
+      "slug": "configure-webpack",
+      "statusId": 1,
+      "tagsId": [2],
+      "title": "Configure webpack",
+      "userId": 1
+    },
+    {
+      "id": 6,
+      "parentId": null,
+      "slug": "add-ci-pipeline",
+      "statusId": 1,
+      "tagsId": [1, 2, 5],
+      "title": "Add CI pipeline",
+      "userId": 1
+    }
+  ],
+  "users": [
+    {
+      "fullName": "John Doe",
+      "id": 1
+    },
+    {
+      "fullName": "Dwayne Johnson",
+      "id": 2
+    },
+    {
+      "fullName": "Nicki Minaj",
+      "id": 3
+    },
+    {
+      "fullName": "Albert Einstein",
+      "id": 4
+    },
+    {
+      "fullName": "Kim Kardashian",
+      "id": 5
+    }
+  ],
+  "statuses": [
+    {
+      "id": 1,
+      "name": "Todo"
+    },
+    {
+      "id": 2,
+      "name": "In progress"
+    },
+    {
+      "id": 3,
+      "name": "Code review"
+    },
+    {
+      "id": 4,
+      "name": "Done"
+    }
+  ],
+  "tags": [
+    {
+      "id": 1,
+      "name": "Continuous Integration",
+      "slug": "continuous-integration"
+    },
+    {
+      "id": 2,
+      "name": "Setup",
+      "slug": "setup"
+    },
+    {
+      "id": 3,
+      "name": "UI",
+      "slug": "ui"
+    },
+    {
+      "id": 4,
+      "name": "Code Style",
+      "slug": "code-style"
+    },
+    {
+      "id": 5,
+      "name": "Development",
+      "slug": "development"
+    }
+  ]
+}
