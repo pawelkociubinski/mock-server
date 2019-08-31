@@ -1,5 +1,8 @@
 ## API Documentation
 
+**Important note:**\
+Don't run both servers in the same time, because it can cause problems with database syncing.
+
 ```bash
 yarn api:rest
 # Start REST API server on port 4000.
