@@ -12,7 +12,7 @@ module.exports = function createConnection() {
   const isDatabaseEmpty = database.size().value() === 0;
 
   if (isDatabaseEmpty) {
-    const freshDb = require("./db.json");
+    const freshDb = require("../db.json");
     database.defaults(freshDb).write();
   }
 

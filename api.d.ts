@@ -10,13 +10,14 @@ declare namespace TaskManager {
   };
 
   type User = {
-    id: number;
     fullName: string;
+    id: number;
   };
 
   type Status = {
     id: number;
     name: string;
+    slug: string;
   };
 
   type Tag = {

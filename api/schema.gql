@@ -9,13 +9,14 @@ type Task {
 }
 
 type User {
-  id: Int!
   fullName: String!
+  id: Int!
 }
 
 type Status {
   id: Int!
   name: String!
+  slug: String!
 }
 
 type Tag {
@@ -25,14 +26,14 @@ type Tag {
 }
 
 type Query {
-  tasks: [Task!]!
-  users: [User!]!
   statuses: [Status!]!
   tags: [Tag!]!
+  tasks: [Task!]!
+  users: [User!]!
 }
 
 type Mutation {
-  createTask(parentId: Int, title: String!, userId: Int!): Task!
   addTagForTask(taskId: Int!, tagName: String!): Task!
+  createTask(parentId: Int, title: String!, userId: Int!): Task!
   removeTagFromTask(taskId: Int!, tagId: Int!): Task!
 }

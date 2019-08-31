@@ -80,19 +80,23 @@
   "statuses": [
     {
       "id": 1,
-      "name": "Todo"
+      "name": "Todo",
+      "slug": "todo"
     },
     {
       "id": 2,
-      "name": "In progress"
+      "name": "In progress",
+      "slug": "in-progress"
     },
     {
       "id": 3,
-      "name": "Code review"
+      "name": "Code review",
+      "slug": "code-review"
     },
     {
       "id": 4,
-      "name": "Done"
+      "name": "Done",
+      "slug": "done"
     }
   ],
   "tags": [

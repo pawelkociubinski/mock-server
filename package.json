@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "api:rest": "node src/index.js rest",
-    "api:graphql": "node src/index.js graphql",
+    "api:rest": "node api/index.js rest",
+    "api:graphql": "node api/index.js graphql",
     "db:reset": "rimraf db.fork.json"
   },
   "devDependencies": {
