@@ -33,19 +33,39 @@ app.use((_, res, next) => {
 
 // Router for queries.
 app.get("/statuses", (_, res) => {
-  res.send(getAllUsers());
+  try {
+    const data = getAllUsers();
+    res.apiOk(data);
+  } catch (err) {
+    res.apiError([err.message]);
+  }
 });
 
 app.get("/tasks", (_, res) => {
-  res.send(getAllTasks());
+  try {
+    const data = getAllTasks();
+    res.apiOk(data);
+  } catch (err) {
+    res.apiError([err.message]);
+  }
 });
 
 app.get("/tags", (_, res) => {
-  res.send(getAllTags());
+  try {
+    const data = getAllTags();
+    res.apiOk(data);
+  } catch (err) {
+    res.apiError([err.message]);
+  }
 });
 
 app.get("/users", (_, res) => {
-  res.send(getAllUsers());
+  try {
+    const data = getAllUsers();
+    res.apiOk(data);
+  } catch (err) {
+    res.apiError([err.message]);
+  }
 });
 
 // Router for mutations.
