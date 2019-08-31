@@ -1,4 +1,4 @@
-declare namespace TaskManagerAPI {
+declare namespace TaskManager {
   type Task = {
     id: number;
     parentId: number | null;
