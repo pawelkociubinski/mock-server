@@ -5,7 +5,4 @@ if (apiType === undefined) {
   process.exit(1);
 }
 
-const startServer =
-  apiType === "graphql" ? require("./api-graphql") : require("./api-rest");
-
-startServer();
+require(`./api-${apiType}`)();
