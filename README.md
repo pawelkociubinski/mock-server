@@ -1,8 +1,5 @@
 ## API Documentation
 
-**Important note:**\
-Don't run both servers in the same time, because it can cause problems with database syncing.
-
 ```bash
 yarn api:rest
 # Start REST API server on port 4000.
@@ -14,6 +11,8 @@ yarn db:reset
 # Reset the database.
 # Requires restarting used API server.
 ```
+
+**Important note:** Don't run both servers in the same time, because it can cause problems with database syncing.
 
 ### REST API
 
@@ -92,7 +91,7 @@ Just run the GraphQL API server and open <http://localhost:4000> in your browser
 
 #### Custom error handling
 
-Our GraphQL API has a custom error reporting mechanism (for mutations only) inspired by this talk: <https://www.youtube.com/watch?v=GYBhHUGR1ZY>. That means that you can get a HTTP 200 code when there is some error, like invalid task id. However, there is a (small, but still) possibility of getting for example a Internal Server Error.\
+Our GraphQL API has a custom error reporting mechanism (for mutations only) inspired by this talk: <https://www.youtube.com/watch?v=GYBhHUGR1ZY>. That means that you can get a HTTP 200 code even when mutation failed because of some error, like invalid task id.\
 This is how you should work with the mutation response:
 
 ```graphql
