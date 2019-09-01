@@ -1,8 +1,12 @@
 const _slug = require("slug");
 
+const op = Symbol("operationErrorFlag");
+
+module.exports.op = op;
+
 module.exports.operationError = function operationError(message, code) {
   return {
-    isOperationError: true,
+    [op]: true,
     code,
     message
   };
