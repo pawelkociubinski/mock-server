@@ -34,6 +34,36 @@ All responses come with format:
 
 Get list of all statuses.
 
+##### Example responses
+
+<details>
+<summary>200 - List of statuses</summary>
+<p>
+```js
+{
+  "data": {
+    "tasks": [
+      {
+        "__typename": "Task",
+        "parentId": null,
+        "id": 1,
+        "title": "Create components library",
+        "statusId": 2
+      },
+      {
+        "__typename": "Task",
+        "parentId": 1,
+        "id": 2,
+        "title": "Configure styling solution",
+        "statusId": 2
+      }
+    ]
+  }
+}
+```
+</p>
+</details>
+
 #### `GET /tags`
 
 Get list of all tags.
