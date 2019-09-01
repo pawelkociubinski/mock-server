@@ -41,7 +41,8 @@ class Entity {
   }
 
   insert(record) {
-    return this.collection.push(record).write();
+    this.collection.push(record).write();
+    return record;
   }
 
   update(id, partial) {

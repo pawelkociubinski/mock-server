@@ -26,21 +26,21 @@ app.use(bodyParser.json());
 
 app.use((_, res, next) => {
   res.operationError = function(err) {
-    const errors = Array.isArray(err) ? err : [err];
+    const httpCode = /^NO_.+_WITH_ID/.test(err.code) ? 404 : 400;
 
-    res.sendStatus(400);
-    res.json({
+    res.status(httpCode).json({
       data: null,
-      errors: errors.map(singleErr => ({
-        __typename: "OperationError",
-        ...singleErr
-      }))
+      errors: [
+        {
+          __typename: "OperationError",
+          ...err
+        }
+      ]
     });
   };
 
   res.validationErrors = function(err) {
-    res.sendStatus(400);
-    res.json({
+    res.status(400).json({
       data: null,
       errors: err.map(errMsg => ({
         __typename: "ValidationError",
@@ -59,7 +59,7 @@ app.use((_, res, next) => {
 
 // Router for queries.
 app.get("/statuses", (_, res) => {
-  const data = getAllUsers();
+  const data = getAllStatuses();
   res.apiOk(data);
 });
 
@@ -88,9 +88,9 @@ app.post("/tasks", (req, res) => {
   };
 
   const errors = validate([
-    [args.parentId, isIntOrUndef, "Parent task id must be an integer"],
-    [args.title, isString, "Task title is missing"],
-    [args.userId, isInt, "User id must be an integer"]
+    [args.parentId, isIntOrUndef, "parentId must be an integer when passed"],
+    [args.title, isString, "title is missing"],
+    [args.userId, isInt, "userId must be an integer"]
   ]);
 
   if (errors) {
@@ -118,8 +118,8 @@ app.put("/tasks/:taskId(\\d+)/tags", (req, res) => {
   };
 
   const errors = validate([
-    [args.taskId, isInt, "Task id must be an integer"],
-    [args.tagName, isString, "Tag name is missing"]
+    [args.taskId, isInt, "taskId must be an integer"],
+    [args.tagName, isString, "tagName is missing"]
   ]);
 
   if (errors) {
@@ -146,8 +146,8 @@ app.delete("/tasks/:taskId(\\d+)/tags/:tagId(\\d+)", (req, res) => {
   };
 
   const errors = validate([
-    [args.tagId, isInt, "Tag id must be an integer"],
-    [args.taskId, isInt, "Task id must be an integer"]
+    [args.tagId, isInt, "tagId must be an integer"],
+    [args.taskId, isInt, "taskId must be an integer"]
   ]);
 
   if (errors) {

@@ -33,11 +33,11 @@ const resolvers = {
   },
   TaskResult: {
     __resolveType(obj) {
-      if (obj.id) {
-        return "Task";
+      if (obj.isOperationError) {
+        return "OperationError";
       }
 
-      return "OperationError";
+      return "Task";
     }
   }
 };

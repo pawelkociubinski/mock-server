@@ -1,7 +1,5 @@
-const slug = require("slug");
-
 const { Tags, Tasks } = require("./entities");
-const { operationError } = require("./utils");
+const { operationError, slug } = require("./utils");
 
 module.exports = function addTagForTask({ tagName, taskId }) {
   const task = Tasks.getOne(taskId);
