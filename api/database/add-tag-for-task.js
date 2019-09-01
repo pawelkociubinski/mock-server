@@ -1,17 +1,21 @@
 const slug = require("slug");
 
 const { Tags, Tasks } = require("./entities");
+const { operationError } = require("./utils");
 
 module.exports = function addTagForTask({ tagName, taskId }) {
   const task = Tasks.getOne(taskId);
 
   if (!task) {
-    throw new Error(`No task with id: ${taskId}`);
+    return operationError(`No task with id: ${taskId}`, "NO_TASK_WITH_ID");
   }
 
   // Allow only 4 tags for each task.
   if (task.tagsId.length >= 4) {
-    throw new Error(`A single task cannot have more than 4 tags`);
+    return operationError(
+      `A single task cannot have more than 4 tags`,
+      "TOO_MANY_TAGS"
+    );
   }
 
   // Create url-safe slug for a tag.

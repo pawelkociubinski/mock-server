@@ -25,9 +25,9 @@ All responses come with format:
   // 'null' only if there are some errors.
   data: object[] | object | null
 
-  // Array of error messages.
+  // Array of error objects (code + message).
   // If no errors, this field is omited.
-  errors: string[]
+  errors: object[]
 }
 ```
 
@@ -88,4 +88,59 @@ No request body required.
 
 ### GraphQL API
 
-Just run the GraphQL API server and open <localhost:4000> in your browser. You can find there a GraphQL playground with all available endpoints.
+Just run the GraphQL API server and open <http://localhost:4000> in your browser. You can find there a GraphQL playground with all available endpoints.
+
+#### Custom error handling
+
+Our GraphQL API has a custom error reporting mechanism (for mutations only) inspired by this talk: <https://www.youtube.com/watch?v=GYBhHUGR1ZY>. That means that you can get a HTTP 200 code when there is some error, like invalid task id. However, there is a (small, but still) possibility of getting for example a Internal Server Error.\
+This is how you should work with the mutation response:
+
+```graphql
+{
+  mutation {
+    result: addTagForTask(taskId: 4, tagName: "Tag for task") {
+      __typename
+      ... on Task {
+        id
+        title
+        tagsId
+      }
+      ... on OperationError {
+        code
+        message
+      }
+    }
+  }
+}
+```
+
+##### Result with error
+
+Example of failed mutation response:
+
+```json
+{
+  "data": {
+    "result": {
+      "__typename": "OperationError",
+      "code": "TOO_MANY_TAGS",
+      "message": "A single task cannot have more than 4 tags"
+    }
+  }
+}
+```
+
+##### Successful result
+
+```json
+{
+  "data": {
+    "result": {
+      "__typename": "Task",
+      "id": 4,
+      "title": "Write reusable base styles",
+      "tagsId": [3, 6]
+    }
+  }
+}
+```

@@ -1,6 +1,12 @@
 const bodyParser = require("body-parser");
 const express = require("express");
-const { isInt, isIntOrUndef, isString, toInt, validate } = require("./utils");
+const {
+  isInt,
+  isIntOrUndef,
+  isString,
+  toInt,
+  validate
+} = require("./rest/utils");
 
 // Mutations.
 const addTagForTask = require("./database/add-tag-for-task");
@@ -19,9 +25,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use((_, res, next) => {
-  res.apiError = function(err) {
+  res.operationError = function(err) {
+    const errors = Array.isArray(err) ? err : [err];
+
     res.sendStatus(400);
-    res.json({ data: null, errors: Array.isArray(err) ? err : [err] });
+    res.json({
+      data: null,
+      errors: errors.map(singleErr => ({
+        __typename: "OperationError",
+        ...singleErr
+      }))
+    });
+  };
+
+  res.validationErrors = function(err) {
+    res.sendStatus(400);
+    res.json({
+      data: null,
+      errors: err.map(errMsg => ({
+        __typename: "ValidationError",
+        code: "VALIDATION_ERROR",
+        message: errMsg
+      }))
+    });
   };
 
   res.apiOk = function(data) {
@@ -33,39 +59,23 @@ app.use((_, res, next) => {
 
 // Router for queries.
 app.get("/statuses", (_, res) => {
-  try {
-    const data = getAllUsers();
-    res.apiOk(data);
-  } catch (err) {
-    res.apiError([err.message]);
-  }
+  const data = getAllUsers();
+  res.apiOk(data);
 });
 
 app.get("/tasks", (_, res) => {
-  try {
-    const data = getAllTasks();
-    res.apiOk(data);
-  } catch (err) {
-    res.apiError([err.message]);
-  }
+  const data = getAllTasks();
+  res.apiOk(data);
 });
 
 app.get("/tags", (_, res) => {
-  try {
-    const data = getAllTags();
-    res.apiOk(data);
-  } catch (err) {
-    res.apiError([err.message]);
-  }
+  const data = getAllTags();
+  res.apiOk(data);
 });
 
 app.get("/users", (_, res) => {
-  try {
-    const data = getAllUsers();
-    res.apiOk(data);
-  } catch (err) {
-    res.apiError([err.message]);
-  }
+  const data = getAllUsers();
+  res.apiOk(data);
 });
 
 // Router for mutations.
@@ -84,16 +94,18 @@ app.post("/tasks", (req, res) => {
   ]);
 
   if (errors) {
-    res.apiError(errors);
+    res.validationErrors(errors);
     return;
   }
 
-  try {
-    const data = createTask(args);
-    res.apiOk(data);
-  } catch (err) {
-    res.apiError([err.message]);
+  const result = createTask(args);
+
+  if (typeof result.code === "string") {
+    res.operationError(result);
+    return;
   }
+
+  res.apiOk(result);
 });
 
 app.put("/tasks/:taskId(\\d+)/tags", (req, res) => {
@@ -111,16 +123,18 @@ app.put("/tasks/:taskId(\\d+)/tags", (req, res) => {
   ]);
 
   if (errors) {
-    res.apiError(errors);
+    res.validationErrors(errors);
     return;
   }
 
-  try {
-    const data = addTagForTask(args);
-    res.apiOk(data);
-  } catch (err) {
-    res.apiError([err.message]);
+  const result = addTagForTask(args);
+
+  if (typeof result.code === "string") {
+    res.operationError(result);
+    return;
   }
+
+  res.apiOk(result);
 });
 
 app.delete("/tasks/:taskId(\\d+)/tags/:tagId(\\d+)", (req, res) => {
@@ -137,16 +151,18 @@ app.delete("/tasks/:taskId(\\d+)/tags/:tagId(\\d+)", (req, res) => {
   ]);
 
   if (errors) {
-    res.apiError(errors);
+    res.validationErrors(errors);
     return;
   }
 
-  try {
-    const data = removeTagFromTask(args);
-    res.apiOk(data);
-  } catch (err) {
-    res.apiError([err.message]);
+  const result = removeTagFromTask(args);
+
+  if (typeof result.code === "string") {
+    res.operationError(result);
+    return;
   }
+
+  res.apiOk(result);
 });
 
 app.all("*", (_, res) => {

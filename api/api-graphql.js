@@ -13,7 +13,7 @@ const getAllTags = require("./database/get-all-tags");
 const getAllTasks = require("./database/get-all-tasks");
 const getAllUsers = require("./database/get-all-users");
 
-const schemaPath = path.join(__dirname, "schema.gql");
+const schemaPath = path.join(__dirname, "graphql/schema.graphql");
 const schema = fs.readFileSync(schemaPath, "utf-8");
 const typeDefs = gql`
   ${schema}
@@ -30,6 +30,15 @@ const resolvers = {
     createTask: (_, args) => createTask(args),
     removeTagFromTask: (_, args) => removeTagFromTask(args),
     addTagForTask: (_, args) => addTagForTask(args)
+  },
+  TaskResult: {
+    __resolveType(obj) {
+      if (obj.id) {
+        return "Task";
+      }
+
+      return "OperationError";
+    }
   }
 };
 

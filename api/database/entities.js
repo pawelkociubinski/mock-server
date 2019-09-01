@@ -1,8 +1,7 @@
 const createConnection = require("./connection");
-
 const database = createConnection();
 
-module.exports = class Entity {
+class Entity {
   constructor(tableName) {
     this.tableName = tableName;
   }
@@ -51,4 +50,9 @@ module.exports = class Entity {
       .assign(partial)
       .write();
   }
-};
+}
+
+module.exports.Statuses = new Entity("statuses");
+module.exports.Tags = new Entity("tags");
+module.exports.Tasks = new Entity("tasks");
+module.exports.Users = new Entity("users");
