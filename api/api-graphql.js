@@ -2,7 +2,7 @@ const { ApolloServer, gql } = require("apollo-server");
 const fs = require("fs");
 const path = require("path");
 
-const { op } = require("./database/utils");
+const { opErrFlagSymbol } = require("./database/utils");
 
 // Mutations.
 const addTagForTask = require("./database/add-tag-for-task");
@@ -35,7 +35,7 @@ const resolvers = {
   },
   TaskResult: {
     __resolveType(obj) {
-      if (obj[op]) {
+      if (obj[opErrFlagSymbol]) {
         return "OperationError";
       }
 
