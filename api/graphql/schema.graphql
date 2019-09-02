@@ -1,0 +1,53 @@
+type Task {
+  id: Int!
+  parentId: Int
+  slug: String!
+  statusId: Int!
+  tagsId: [Int!]!
+  title: String!
+  userId: Int!
+}
+
+type User {
+  fullName: String!
+  id: Int!
+}
+
+type Status {
+  id: Int!
+  name: String!
+  slug: String!
+}
+
+type Tag {
+  id: Int!
+  name: String!
+  slug: String!
+}
+
+type Query {
+  statuses: [Status!]!
+  tags: [Tag!]!
+  tasks: [Task!]!
+  users: [User!]!
+}
+
+enum OperationErrorCode {
+  DUPLICATE_TASK
+  NO_TASK_WITH_ID
+  NO_USER_WITH_ID
+  TOO_MANY_TAGS
+}
+
+type OperationError {
+  code: OperationErrorCode!
+  message: String!
+}
+
+union TaskResult = Task | OperationError
+
+type Mutation {
+  addTagForTask(taskId: Int!, tagName: String!): TaskResult!
+  createTask(parentId: Int, title: String!, userId: Int!): TaskResult!
+  removeTagFromTask(taskId: Int!, tagId: Int!): TaskResult!
+}
