@@ -45,7 +45,13 @@ const resolvers = {
 };
 
 module.exports = function startGraphQLServer() {
-  new ApolloServer({ typeDefs, resolvers }).listen(4000).then(({ url }) => {
+  new ApolloServer({
+    cors: {
+      origin: "*",
+    },
+    typeDefs,
+    resolvers,
+  }).listen(4000).then(({ url }) => {
     console.log(`🚀  GraphQL API server ready at ${url}`);
   });
 };

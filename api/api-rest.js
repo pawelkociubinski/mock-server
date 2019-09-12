@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const express = require("express");
+const cors = require("cors");
 const {
   isInt,
   isIntOrUndef,
@@ -23,6 +24,7 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use((_, res, next) => {
   res.operationError = function(err) {
